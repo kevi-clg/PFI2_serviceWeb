@@ -743,7 +743,8 @@ function showEditUserForm() {
 }
 
 async function showUsersAdmin() {
-    showForm()
+    showForm();
+    $('#commit').hide();
     $('#viewTitle').text("Gestion d'usagers");
     renderUsersAdmin();
 }
