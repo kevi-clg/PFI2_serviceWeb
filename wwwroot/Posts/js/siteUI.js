@@ -96,8 +96,8 @@ function toogleShowKeywords() {
 /////////////////////////// Views management ////////////////////////////////////////////////////////////
 
 function intialView() {
-    if (Users_API.getLoggedUser()) {
-        if (Users_API.getLoggedUser().isSuper) {
+    if (users_API.getLoggedUser()) {
+        if (users_API.getLoggedUser().isSuper) {
             $("#createPost").show();
 
         } else {
@@ -247,7 +247,7 @@ async function renderPosts(queryString) {
 }
 function renderPost(post, likes) {
     let date = convertToFrenchDate(UTC_To_Local(post.Date));
-    let user = Users_API.getLoggedUser();
+    let user = users_API.getLoggedUser();
     let names = "";
     let thisUser = false;
     let likeId = "";
@@ -366,7 +366,7 @@ async function compileCategories() {
 function updateDropDownMenu() {
     let DDMenu = $("#DDMenu");
     let selectClass = selectedCategory === "" ? "fa-check" : "fa-fw";
-    let user = Users_API.getLoggedUser();
+    let user = users_API.getLoggedUser();
     DDMenu.empty();
     if (user) {
         DDMenu.append($(`
@@ -432,7 +432,7 @@ function updateDropDownMenu() {
     });
 
     $('#deconnexion').on("click", async function () {
-        await Users_API.logout()
+        await users_API.logout()
         await showPosts();
     });
 
@@ -476,7 +476,7 @@ function attach_Posts_UI_Events_Callback() {
         let Like = {};
         Like.Id = 0;
         Like.PostId = $(this).attr("postId");
-        Like.UserId = Users_API.getLoggedUser().Id;
+        Like.UserId = users_API.getLoggedUser().Id;
         Posts_API.AddLike(Like);
         postsPanel.scrollToElem($(this).attr("postId"));
 
@@ -698,7 +698,7 @@ function renderPostForm(post = null) {
 
         post.Date = Local_to_UTC(Date.now());
 
-        post.OwnerId = Users_API.getLoggedUser().Id;
+        post.OwnerId = users_API.getLoggedUser().Id;
         delete post.keepDate;
         post = await Posts_API.Save(post, create);
         if (!Posts_API.error) {
@@ -738,7 +738,7 @@ function showCreateUserForm() {
 function showEditUserForm() {
     showForm()
     $('#viewTitle').text('Modification');
-    let user = Users_API.getLoggedUser();
+    let user = users_API.getLoggedUser();
     renderUserForm(user);
 }
 
@@ -800,15 +800,15 @@ function renderConnexionForm() {
     $('#connexionForm').on("submit", async function (event) {
         event.preventDefault();
         let infos = getFormData($("#connexionForm"));
-        await Users_API.Login(infos)
-        let user = Users_API.getLoggedUser();
+        await users_API.Login(infos)
+        let user = users_API.getLoggedUser();
         if (user) {
             if (!user.isBlocked) {
                 await showPosts();
 
             }
             else {
-                Users_API.logout()
+                users_API.logout()
                 showError(`${user.Name}, votre compte est bloqué`);
             }
         }
@@ -906,8 +906,8 @@ function renderUserForm(user = null) {
             user.Created = Local_to_UTC(Date.now());
         }
         delete user.keepDate;
-        let result = await Users_API.Save(user, create);
-        if (!Users_API.error) {
+        let result = await users_API.Save(user, create);
+        if (!users_API.error) {
             create ? showConnexionForm() : showPosts();
         }
         else {
@@ -926,7 +926,7 @@ function renderUserForm(user = null) {
 
 
 async function renderUsersAdmin() {
-    let users = await Users_API.Get();
+    let users = await users_API.Get();
     users = users.data;
 
 
@@ -979,32 +979,32 @@ async function renderUsersAdmin() {
 
     $('.changeStatus').on('click', async function () {
         let userId = $(this).attr('userId');
-        let user = await Users_API.Get(userId);
+        let user = await users_API.Get(userId);
         user = user.data[0];
 
-        let result = await Users_API.Promote(user);
+        let result = await users_API.Promote(user);
         showUsersAdmin();
 
     });
     $('.blockCmd').on('click', async function () {
         let userId = $(this).attr('userId');
-        let user = await Users_API.Get(userId);
+        let user = await users_API.Get(userId);
         user = user.data[0];
 
-        let result = await Users_API.Block(user);
+        let result = await users_API.Block(user);
         showUsersAdmin();
 
     });
     $('.unblockCmd').on('click', async function () {
         let userId = $(this).attr('userId');
 
-        let result = await Users_API.Block(user);
+        let result = await users_API.Block(user);
         showUsersAdmin();
 
     });
     $('.deleteCmd').on('click', async function () {
         let userId = $(this).attr('userId');
-        let user = await Users_API.Get(userId);
+        let user = await users_API.Get(userId);
         user = user.data[0];
         $("#dialog-confirm").dialog({
             resizable: false,
@@ -1013,7 +1013,7 @@ async function renderUsersAdmin() {
             modal: true,
             buttons: {
                 "Supprimer": function () {
-                    Users_API.Delete(userId)
+                    users_API.Delete(userId)
                     console.log("Élément supprimé");
                     $(this).dialog("close");
                 },

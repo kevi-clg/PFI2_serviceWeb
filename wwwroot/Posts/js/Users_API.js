@@ -1,7 +1,7 @@
 
-class Users_API {
+class users_API {
     static Host_URL() { return "http://localhost:5000"; }
-    static Users_API_URL() { return this.Host_URL() + "/accounts" };
+    static users_API_URL() { return this.Host_URL() + "/accounts" };
     static Login_API_URL() { return this.Host_URL() + "/token" };
     static Logout_API_URL() { return this.Host_URL() + "/logout" };
 
@@ -25,37 +25,37 @@ class Users_API {
         this.error = true;
     }
     static async HEAD() {
-        Users_API.initHttpState();
+        users_API.initHttpState();
         return new Promise(resolve => {
             $.ajax({
-                url: this.Users_API_URL(),
+                url: this.users_API_URL(),
                 type: 'HEAD',
                 contentType: 'text/plain',
                 complete: data => { resolve(data.getResponseHeader('ETag')); },
-                error: (xhr) => { Users_API.setHttpErrorState(xhr); resolve(null); }
+                error: (xhr) => { users_API.setHttpErrorState(xhr); resolve(null); }
             });
         });
     }
     static async Get(id = null) {
-        Users_API.initHttpState();
+        users_API.initHttpState();
         return new Promise(resolve => {
             $.ajax({
-                url: this.Users_API_URL() + (id != null ? "?id=" + id : ""),
+                url: this.users_API_URL() + (id != null ? "?id=" + id : ""),
                 complete: data => { resolve({ ETag: data.getResponseHeader('ETag'), data: data.responseJSON }); },
-                error: (xhr) => { Users_API.setHttpErrorState(xhr); resolve(null); }
+                error: (xhr) => { users_API.setHttpErrorState(xhr); resolve(null); }
             });
         });
     }
     static async GetQuery(queryString = "") {
-        Users_API.initHttpState();
+        users_API.initHttpState();
         return new Promise(resolve => {
             $.ajax({
-                url: this.Users_API_URL() + queryString,
+                url: this.users_API_URL() + queryString,
                 complete: data => {
                     resolve({ ETag: data.getResponseHeader('ETag'), data: data.responseJSON });
                 },
                 error: (xhr) => {
-                    Users_API.setHttpErrorState(xhr); resolve(null);
+                    users_API.setHttpErrorState(xhr); resolve(null);
                 }
             });
         });
@@ -75,7 +75,7 @@ class Users_API {
                     console.log(sessionStorage.getItem('user'));
                     resolve(data);
                 },
-                error: (xhr) => { Users_API.setHttpErrorState(xhr); resolve(null); }
+                error: (xhr) => { users_API.setHttpErrorState(xhr); resolve(null); }
             });
         });
     }
@@ -86,24 +86,24 @@ class Users_API {
     }
 
     static async Save(data, create = true) {
-        Users_API.initHttpState();
+        users_API.initHttpState();
         if (create) {
             return new Promise(resolve => {
                 $.ajax({
-                    url: this.Users_API_URL() + "/register/" + data.Id,
+                    url: this.users_API_URL() + "/register/" + data.Id,
                     type: "POST",
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: (data) => {
                         resolve(data);
                     },
-                    error: (xhr) => { Users_API.setHttpErrorState(xhr); resolve(null); }
+                    error: (xhr) => { users_API.setHttpErrorState(xhr); resolve(null); }
                 });
             });
         } else {
             return new Promise(resolve => {
                 $.ajax({
-                    url: this.Users_API_URL() + "/modify/" + data.Id,
+                    url: this.users_API_URL() + "/modify/" + data.Id,
                     type: "PUT",
                     contentType: 'application/json',
                     headers: {
@@ -114,7 +114,7 @@ class Users_API {
                         sessionStorage.setItem('user', JSON.stringify(data));
                         resolve(data);
                     },
-                    error: (xhr) => { Users_API.setHttpErrorState(xhr); resolve(null); }
+                    error: (xhr) => { users_API.setHttpErrorState(xhr); resolve(null); }
                 });
             });
         }
@@ -123,14 +123,14 @@ class Users_API {
     static async Delete(id) {
         return new Promise(resolve => {
             $.ajax({
-                url: this.Users_API_URL() + "/remove/" + id,
+                url: this.users_API_URL() + "/remove/" + id,
                 type: "GET",
                 success: () => {
-                    Users_API.initHttpState();
+                    users_API.initHttpState();
                     resolve(true);
                 },
                 error: (xhr) => {
-                    Users_API.setHttpErrorState(xhr); resolve(null);
+                    users_API.setHttpErrorState(xhr); resolve(null);
                 }
             });
         });
@@ -140,14 +140,14 @@ class Users_API {
         return new Promise(resolve => {
 
             $.ajax({
-                url: this.Users_API_URL() + "/promote/" + data.Id,
+                url: this.users_API_URL() + "/promote/" + data.Id,
                 type: "POST",
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: (data) => {
                     resolve(data);
                 },
-                error: (xhr) => { Users_API.setHttpErrorState(xhr); resolve(null); }
+                error: (xhr) => { users_API.setHttpErrorState(xhr); resolve(null); }
             });
         });
     }
@@ -156,14 +156,14 @@ class Users_API {
         return new Promise(resolve => {
 
             $.ajax({
-                url: this.Users_API_URL() + "/block/" + data.Id,
+                url: this.users_API_URL() + "/block/" + data.Id,
                 type: "POST",
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: (data) => {
                     resolve(data);
                 },
-                error: (xhr) => { Users_API.setHttpErrorState(xhr); resolve(null); }
+                error: (xhr) => { users_API.setHttpErrorState(xhr); resolve(null); }
             });
         });
     }
