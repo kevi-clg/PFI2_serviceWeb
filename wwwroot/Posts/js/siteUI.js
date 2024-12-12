@@ -1018,6 +1018,7 @@ async function renderUsersAdmin() {
             buttons: {
                 "Supprimer": function () {
                     users_API.Delete(userId)
+                    renderUsersAdmin();
                     console.log("Élément supprimé");
                     $(this).dialog("close");
                 },
