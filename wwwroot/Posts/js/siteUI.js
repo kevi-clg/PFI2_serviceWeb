@@ -478,6 +478,7 @@ function attach_Posts_UI_Events_Callback() {
         Like.PostId = $(this).attr("postId");
         Like.UserId = users_API.getLoggedUser().Id;
         Posts_API.AddLike(Like);
+        await showPosts();
         postsPanel.scrollToElem($(this).attr("postId"));
 
 
@@ -997,7 +998,7 @@ async function renderUsersAdmin() {
     });
     $('.unblockCmd').on('click', async function () {
         let userId = $(this).attr('userId');
-
+        let user = await users_API.Get(userId);
         let result = await users_API.Block(user);
         showUsersAdmin();
 
