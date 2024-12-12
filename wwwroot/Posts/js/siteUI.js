@@ -488,6 +488,7 @@ function attach_Posts_UI_Events_Callback() {
     $(".RemoveLikeCmd").off();
     $(".RemoveLikeCmd").on("click", async function () {
         Posts_API.RemoveLike($(this).attr('likeId'));
+        await showPosts();
         postsPanel.scrollToElem($(this).attr("postId"));
     });
 
