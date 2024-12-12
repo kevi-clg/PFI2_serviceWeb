@@ -288,7 +288,7 @@ function renderPost(post, likes) {
             if (thisUser) {
                 crudIcon += `
                     <span class="RemoveLikeCmd cmdIconSmall fa-solid fa-heart" likeId="${likeId}" postId="${post.Id}" title="${names}"></span>
-                <span>${nb}</span>
+                    <span>${nb}</span>
                     `;
             } else {
                 crudIcon += `
@@ -308,15 +308,17 @@ function renderPost(post, likes) {
             <span class=" cmdIconSmall" postId="${post.Id}" title=""></span>
             <span class=" cmdIconSmall" postId="${post.Id}" title=""></span>     
         `;
-            if (thisUser) {
-                crudIcon += `
+        if (thisUser) {
+            crudIcon += `
                 <span class="RemoveLikeCmd cmdIconSmall fa-solid fa-heart" likeId="${likeId}" postId="${post.Id}" title="${names}"></span>
-            `;
-            } else {
-                crudIcon += `
+                <span>${nb}</span>
+                `;
+        } else {
+            crudIcon += `
                 <span class="AddLikeCmd cmdIconSmall fa-regular fa-heart" postId="${post.Id}" title="${names}"></span>
-            `;
-            }
+                <span>${nb}</span>
+                `;
+        }
         }
     }
 
@@ -948,7 +950,7 @@ async function renderUsersAdmin() {
             }
             if (user.isBlocked) {
                 status = `<span class=" cmdIconSmall2 fa-solid fa-user-minus" userId="${user.Id}" title="User"></span>`;
-                blocked = `<span class="unblockCmd cmdIconSmall2 fa-solid fa-lock" userId="${user.Id}" title="Blocked"></span>`;
+                blocked = `<span class="blockCmd cmdIconSmall2 fa-solid fa-lock" userId="${user.Id}" title="Blocked"></span>`;
             } else {
                 blocked = `<span class="blockCmd cmdIconSmall2 fa-solid fa-unlock" userId="${user.Id}" title="Unblocked"></span>`;
             }
